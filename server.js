@@ -12,8 +12,6 @@ import {getCurrentExchangeRate, getMonthsRates, getCalendarRates } from "./excha
 import { createRequire } from "module";
 import searchRoutes from "./search.js"
 
-console.log("✅ Search routes imported:", searchRoutes);
-
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,11 +21,15 @@ dotenv.config();
 const require = createRequire(import.meta.url);
 
 // Middleware
+app.use(cors({
+  origin: ['https://gseurodiffusion.fr'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+}));
+app.options('*', cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(searchRoutes);
 app.use(cookieParser());
-app.use(cors()); // Allow cross-origin requests
 
 const USER_EMAIL = process.env.EMAIL_USER;
 const USER_PASS = process.env.EMAIL_PASS;
