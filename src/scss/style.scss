@@ -347,7 +347,7 @@ body {
 	}
 	&__description {
 		margin-top: 30px;
-		font-size: 1.2em;
+		font-size: 1.5em;
 		line-height: 115%;
 	}
 	&__right{
@@ -1160,11 +1160,11 @@ body {
 		opacity: 0;
 		visibility: hidden;
 		position: fixed;
-		top: 10%;
+		top: 8%;
 		right: 0;
 		transform: translateX(100%);
 		transition: transform 0.5s ease-in-out;
-		padding: 20px;
+		padding: 50px 20px;
 		background-color: $whiteColor;
 		&__menu {
 			display: flex;
@@ -1189,7 +1189,7 @@ body {
 			width: 50%;
 	}
 	.hero__content {
-		padding: 10em 2em;
+		padding: 50% 2em;
 		flex: 1 1 1;
 	}
 	.partners-slide {

@@ -1,6 +1,7 @@
 import Chart from "chart.js/auto";
 import { validateForm } from "./formValidation.js";
 
+const API_URL = 'https://gseurodiffusion.onrender.com';
 const nav = document.getElementById('nav');
 const header = document.getElementById('header');
 const hamburgerButton = document.getElementById('mobile');
@@ -58,7 +59,7 @@ document.addEventListener("click", (event) => {
 
 async function performSearch(query, resultsContainer) {
   try {
-    const response = await fetch(`/api/search?query=${encodeURIComponent(query)}`);
+    const response = await fetch(`${API_URL}/api/search?query=${encodeURIComponent(query)}`);
     const data = await response.json();
 
     clearSearch(resultsContainer);
@@ -306,7 +307,7 @@ async function fetchRateFromServer() {
   let rateHeader = document.querySelector('#rateHeader a');
   let ratePage = document.getElementById("rate");
   try {
-    const response = await fetch("/exchange-rate");
+    const response = await fetch(`${API_URL}/exchange-rate`);
     if (!response.ok) {
       throw new Error (`HTTP Error, status: ${response.status}`);
     }
@@ -329,7 +330,7 @@ async function fetchRateFromServer() {
 
 async function fetchYearlyRates() {
   try {
-    const response = await fetch("/exchange-rate/last-12-months");
+    const response = await fetch(`${API_URL}/exchange-rate/last-12-months`);
     if (!response.ok) {
       throw new Error(`HTTP errror! Status: ${response.status}`);
     }
