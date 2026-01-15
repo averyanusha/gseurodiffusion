@@ -15,8 +15,7 @@ import searchRoutes from "./search.js"
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const port = 3000;
-
+const PORT = process.env.PORT || 3000;
 dotenv.config();
 const require = createRequire(import.meta.url);
 
@@ -185,6 +184,6 @@ app.post('/submit-form', [
 });
 
 // Start server
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
