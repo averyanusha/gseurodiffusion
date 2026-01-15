@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+	@@include('html/head.html',{
+	"title":"GSEURO - canalisez vos énergies"
+	})
+	<body>
+		<section class="hero">
+			@@include('html/header.html',{})
+			@@include('html/nav-bar.html',{})
+			<a href="#contact">
+				<button class="sticky-button button">nous contacter</button>
+			</a>
+			<div class="hero__content container">
+				<div class="hero__title">
+					<h1>
+						Canalisez vos énergies<br>
+						<span>GS EURODIFFUSION</span>
+					</h1>
+				</div>
+			</div>
+			<div class="qualities">
+					<h2 class="qualities__titles">
+						Choix
+					</h2>
+					<h2 class="qualities__titles">
+						Disponibilité
+					</h2>
+					<h2 class="qualities__titles">
+						Reactivité
+					</h2>
+					<h2 class="qualities__titles">
+						Qualité
+					</h2>
+			</div>
+		</section>
+		<main class="products">
+			<div class="products__item">
+				<a href="produits.html" class="item__link">
+					<img src="img/fils-et-cable.png" alt="Fils et cables">
+					<h3 class="products__title">Fils et Câbles</h3>
+				</a>
+			</div>
+			<div class="products__item">
+				<a href="produits.html" class="item__link">
+					<img src="img/prefile.png" alt="Prefile">
+					<h3 class="products__title">Préfilé</h3>
+				</a>
+			</div>
+			<div class="products__item">
+				<a href="produits.html" class="item__link">
+					<img src="img/gaine-et-accessoires.png" alt="Conduits">
+					<h3 class="products__title">Gaines et accessoires</h3>
+				</a>
+			</div>
+			<div class="products__item">
+				<a href="produits.html" class="item__link">
+					<img src="img/cuivre-nu.png" alt="Cuivre nu">
+					<h3 class="products__title">Mise à la terre</h3>
+				</a>
+			</div>
+		</main>
+		<section class="about">
+			<div class="about__left">
+				<h4 class="about__title">
+					Une société à votre service depuis plus de 30 ans
+				</h4>
+				<p class="about__description">
+					Fort d’une expérience de plusieurs décennies, GSD est spécialisé dans la vente et la production sur mesure de matériels électriques et plus précisément en fils et câbles, préfilés, conduits plastique et mise à la terre.</p>
+				<p class="about__description">
+					Jouissant de relations particulières avec des fabricants leaders dans leurs pays et domaine, nous intervenons comme agents dépositaires pour assurer vos approvisionnements complets ou vos dépannages
+				</p>
+				<img src="img/logo-gseuro.png" alt="gseurodiffusion" class="logo">
+			</div>
+			<div class="about__right">
+				<a href="about-us.html" class="">
+					<img class="about__img" src="img/illustration-production.jpeg" alt="illustration-site-de-production">
+				</a>
+			</div>
+		</section>
+		<div class="partners">
+			<div class="container">
+				<h4 class="partners__title">Ils nous font confiance</h4>
+				<div id="carousel-root"></div>
+			</div>
+		</div>
+		@@include('html/form.html')
+		@@include('html/footer.html',{})
+		<script src="/js/react-bundle.js"></script>
+		<script type="module" src="/js/app.min.js"></script>
+	</body>
+</html>

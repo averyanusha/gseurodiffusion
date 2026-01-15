@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+	@@include('html/head.html',{
+	"title":"GSEURO - contact"
+	})
+	<body>
+    @@include('html/header.html',{})
+    @@include('html/nav-bar.html',{})
+		<main class="contact">
+			<div class="container">
+				<h1 class="contact__title">
+					Contactez-nous — Des solutions fiables en câbles et fils
+				</h1>
+				<p class="contact__subtitle">
+					Que vous ayez besoin d'une solution sur mesure ou d’un approvisionnement en gros, notre équipe est à votre écoute. N’hésitez pas à nous contacter pour discuter de votre projet ou demander un devis.
+				</p>
+			</div>
+			<div class="contact__container">
+				<form action="/submit-form" method="POST" class="form" id="form">
+					<div class="form__content">
+						<div class="form__left">
+							<div class="form__field">
+								<label for="societe">Nom de la société</label>
+								<input type="text" placeholder="Société" class="form__input" id="company" name="company">
+							</div>
+							<div class="form__field">
+								<label for="email">Votre e-mail*</label>
+								<input type="email" placeholder="Mail" class="form__input" id="mail" name="email" required>
+								<span class="error" id="email-error" aria-live="polite"></span>
+							</div>
+						</div>
+						<div class="form__right">
+							<div class="form__field">
+								<label for="nom">Votre nom et prénom*</label>
+								<input type="text" placeholder="Nom, prénom" class="form__input" id="first-second-name" name="fullName">
+								<span class="error" id="name-error"></span>
+							</div>
+							<div class="form__field">
+								<label for="telephone">Votre téléphone*</label>
+								<input type="text" placeholder="Téléphone" class="form__input" id="phone" name="telephone" required>
+								<span class="error" id="phone-error" aria-live="polite"></span>
+							</div>
+						</div>
+					</div>
+					<div class="form__field form__bottom">
+						<label for="message">Votre message</label>
+						<input type="text" placeholder="Message" class="form__input" id="message" name="message">
+					</div>
+					<div class="form__field form__bottom">
+						<input class="checkbox" type="checkbox" id="checkbox" required name="accepted">
+						<span>RGPD : En soumettant ce formulaire, j'accepte que mes données personnelles soient traitées conformément à la politique de confidentialité du site GSEURO.FR *</span>
+        		<span class="error" id="checkbox-error"></span>
+      		</div>
+					<div class="form__field form__bottom">
+						<button type="submit" class="form__button form__input">Envoyer</button>
+					</div>
+					<div class="result" id="result"></div>
+				</form>
+			</div>
+		</main>
+		@@include('html/footer.html',{})
+		<script type="module" src="/js/app.min.js"></script>
+	</body>
+</html>

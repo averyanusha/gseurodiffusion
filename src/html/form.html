@@ -1,0 +1,31 @@
+<section id="contact" class="_contact">
+  <div class="contact__content container">
+    <form action="/submit-form" method="POST" class="form" id="form">
+      <div class="form__field">
+        <input type="text" placeholder="Société" class="form__input" id="company" name="company">
+      </div>
+      <div class="form__field">
+        <input type="text" placeholder="* Nom, prenom" class="form__input" id="first-second-name" name="fullName">
+        <span class="error" id="name-error"></span>
+      </div>
+      <div class="form__field">
+        <input type="text" placeholder="* Téléphone" class="form__input" id="phone" name="telephone" required>
+        <span class="error" id="phone-error"></span>
+      </div>
+      <div class="form__field">
+        <input type="email" placeholder="* Mail" class="form__input" id="email" name="email" required>
+        <span class="error" id="email-error"></span>
+      </div>
+      <div class="form__field">
+        <label for="checkbox">
+        <input class="checkbox" type="checkbox" id="checkbox" required name="accepted">
+        RGPD : En soumettant ce formulaire, j'accepte que mes données personnelles soient traitées conformément à la politique de confidentialité du site GSEURO.FR *</label>
+      </div>
+      <div class="form__field">
+        <span class="error" id="checkbox-error"></span>
+        <button type="submit" id="form-button" class="form__button form__input">Envoyer</button>
+      </div>
+      <div class="result" id="result"></div>
+    </form>
+  </div>
+</section>

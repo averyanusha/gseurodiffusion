@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fr">
+	@@include('html/head.html',{
+	"title":"Produits - GSEURO"
+	})
+	<body>
+		@@include('html/header.html',{})
+		<div class="container">
+			@@include('html/nav-bar.html',{})
+			<div class="description">
+				<a href="#contact">
+					<button class="sticky-button button">nous contacter</button>
+				</a>
+				<h1 class="description__title">
+					Une gamme complète et disponible 
+				</h1>
+			</div>
+			<main class="catalog">
+				<div class="catalog__show">
+					<ul class="catalog__products">
+						<li class="product">
+							<button class="product__button">
+								<h3 class="products__title">Fils et câbles</h3>
+								<img src="img/fils-et-cable.png" alt="Fils et cables" class="product__img">
+							</button>
+						</li>
+						<li class="product right">
+							<button class="product__button">
+								<h3 class="products__title">Préfilé</h3>
+								<img src="img/prefile.png" alt="Prefile" class="product__img">
+							</button>
+						</li>
+						<li class="product">
+							<button class="product__button">
+								<h3 class="product__title products__title">Gaines et accessoires</h3>
+								<img src="img/gaine-et-accessoires.png" alt="Gaine et accessoires" class="product__img">
+							</button>
+						</li>
+						<li class="product right">
+							<button class="product__button">
+								<h3 class="products__title">Mise à la terre</h3>
+								<img src="img/cuivre-nu.png" alt="Cuivre nu" class="product__img">
+							</button>
+						</li>
+					</ul>
+					<ul class="catalog__cards">
+						<li class="card">
+							<button class="card__close">x</button>
+							<div class="card__container">
+								<h4 class="card__title products__title">
+									Fils et câbles domestiques et industriels
+								</h4>
+								<p class="card__text">
+									GSD vous propose une gamme complète de fils et câbles normalisés basse-tension, courants forts et courants faibles en conditionnements standards ou à la coupe.
+								</p>
+								<ul class="card__list">
+									<li>H07V-U/R</li>
+									<li>U 1000 R2V</li>
+									<li>FR-NO7V-AR</li>
+									<li>CR1-C1</li>
+									<li>Courants faibles</li>
+								</ul>
+								<a href="contact.html">
+									<button class="card__button button">Demander la fiche technique et obtenir un devis</button>
+								</a>
+							</div>
+						</li>
+						<li class="card">
+							<button class="card__close">x</button>
+							<div class="card__container">
+								<h4 class="card__title products__title">
+									Gaines préfilées prêtes à poser
+								</h4>
+								<p class="card__text">
+									GSD vous propose une fabrication sur mesure de toutes les compositions courants forts et courants faibles dans les conduits ICTA 3422 diam.16 à 40
+								</p>
+								<ul class="card__list">
+									<li>ICTA 16 c.100m 35 Rouleaux par palettes </li>
+									<li>ICTA 20 c.100m 28 Rouleaux par palettes </li>
+									<li>ICTA 25 c.100m 20 Rouleaux par palettes </li>
+									<li>ICTA 32/40 c.100m 20 Rouleaux par palettes</li>
+								</ul>
+								<a href="contact.html">
+									<button class="card__button button">Demander la fiche technique et obtenir un devis</button>
+								</a>
+							</div>
+						</li>
+						<li class="card">
+							<button class="card__close">x</button>
+							<div class="card__container">
+								<h4 class="card__title products__title">
+									Gaines et accessoires
+								</h4>
+								<p class="card__text">
+									GSD vous propose sa gamme complète de conduits ICTA 3422 annelée, cintrable, avec ou sans tire-fil en acier galvanisé. Conditionnement en couronnes standards ou grandes longueurs. 
+								</p>
+								<ul class="card__list">
+									<li>Gaine ICTA 3422 annelée</li>
+									<li>Diamètres extérieurs 16 – 20 – 25 – 32 – 40</li>
+								</ul>
+								<a href="contact.html">
+									<button class="card__button button">Demander la fiche technique et obtenir un devis</button>
+								</a>
+							</div>
+						</li>
+						<li class="card">
+							<button class="card__close">x</button>
+							<div class="card__container">
+								<h4 class="card__title products__title">
+									Mise à la terre
+								</h4>
+								<p class="card__text">
+									GSD vous propose une large gamme de matériel de mise à la terre, pour des installations électriques fiables, sûres et de qualité.
+								</p>
+								<ul class="card__list">
+									<li>Câblette de cuivre nu rouge recuit en tourets ou à la coupe</li>
+									<li>Piquets de terre acier cuivré diam. 14 auto-allongeable 1.00m et 1.50m</li>
+									<li>Brides de connexion laiton pour piquets</li>
+									<li>Barrettes de coupure hautes et basses</li>
+									<li>Connecteurs en « C », têtes d’enfoncement… </li>
+								</ul>
+								<a href="contact.html">
+									<button class="card__button button">Demander la fiche technique et obtenir un devis</button>
+								</a>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</main>
+		</div>
+		@@include('html/form.html')
+		@@include('html/footer.html',{})
+		<script type="module" src="/js/app.min.js"></script>
+	</body>
+</html>

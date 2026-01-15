@@ -1,0 +1,26 @@
+
+$fontFamily: "Nunito";
+
+$mainColor: #2C5499;
+$blackColor: #121212;
+$brownColor: #90643F;
+$whiteColor: #ffffff;
+
+$minWidth: 320;
+$maxWidth: 1920;
+
+$maxWidthContainer: 1590;
+$containerPadding: 30;
+$containerWidth: $maxWidthContainer + $containerPadding;
+
+$responsiveTupe: 1;
+
+
+
+// Брейк-поинты
+
+
+$pc: em($containerWidth);
+$tablet: em(991.98);
+$mobile: em(767.98);
+$mobileSmall: em(479.98);

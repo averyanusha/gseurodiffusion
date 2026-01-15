@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+	@@include('html/head.html',{
+	"title":"A propos de GSEURO"
+	})
+	<body>
+		@@include('html/header.html',{})
+		@@include('html/nav-bar.html',{})
+		<main class="about">
+				<div class="about__left">
+					<h1 class="about__title">GS EURODIFFUSION</h1>
+					<hr class="about__line"/>
+					<p class="about__description">
+						Depuis plus de 35 ans, GSD distribue tous types de matériel électrique, en France comme à
+						l’international, en palettes panachées ou en camions/conteneurs complets.
+						Fondée en 1990 sur les bases d’une société de négoce, l’entreprise a évolué pour se spécialiser dans
+						la vente et la production sur mesure de matériel électrique.
+						Agent dépositaire de câbleries, GS EURODIFFUSION propose une gamme complète, compétitive et
+						adaptée, permettant d’assurer vos approvisionnements complets ou répondre à vos besoins en
+						dépannage sur son stock câbles, préfilés, conduits et mise à la terre.
+					</p>
+				</div>
+				<div class="about__right">
+					<img src="img/gseuro-siege.png" alt="gseuro-siege" class="about__img">
+				</div>
+		</main>
+		<section class="qualities qualities__blue">
+			<h2 class="qualities__title">Nos chiffres clés</h2>
+			<div class="container qualities__container">
+				<div class="qualities__item">
+					<div class="qualities__icon">
+						<img src="img/clients-satistaits.svg" alt="handshake">
+					</div>
+					<p class="qualities__description">150+ <br> clients satisfaits</p>
+				</div>
+				<div class="qualities__item">
+					<div class="qualities__icon">
+						<img src="img/agent-commercial.svg" alt="briefcase">
+					</div>
+					<p class="qualities__description">2 Cartes d’agent commercial</p>
+				</div>
+				<div class="qualities__item">
+					<div class="qualities__icon">
+						<img src="img/experience.svg" alt="clock">
+					</div>
+					<p class="qualities__description">35 Années d’expérience</p>
+				</div>
+				<div class="qualities__item">
+					<div class="qualities__icon">
+						<img src="img/cables-vendus.svg" alt="plug">
+					</div>
+					<p class="qualities__description">20 000Km+ <br> de câbles vendus par an</p>
+				</div>
+			</div>
+		</section>
+		<section class="timeline">
+			<div class="container" id="timeline-root"></div>
+		</section>
+		@@include('html/form.html')
+		@@include('html/footer.html',{})
+		<script src="/js/react-bundle.js"></script>
+		<script type="module" src="/js/app.min.js"></script>
+	</body>
+</html>

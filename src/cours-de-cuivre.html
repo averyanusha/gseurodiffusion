@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+	@@include('html/head.html',{
+	"title":"Cours de cuivre - GSEURO"
+	})
+	<body>
+		@@include('html/header.html',{})
+		@@include('html/nav-bar.html',{})
+		<main>
+			<div class="container">
+				<a href="#contact">
+					<button class="sticky-button button">nous contacter</button>
+				</a>
+				<h1 id="rate" class="hero__rate">Current rate</h1>
+				<div class="chart">
+					<canvas id="yearlyChart" class="chart__container"></canvas>
+				</div>
+			</div>
+		</main>
+		<section class="calendar container">
+			<div id="calendar-root"></div>
+		</section>
+		@@include('html/form.html')
+		@@include('html/footer.html',{})
+		<script src="/js/react-bundle.js"></script>
+		<script type="module" src="/js/app.min.js"></script>
+	</body>
+</html>

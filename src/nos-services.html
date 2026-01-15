@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+	@@include('html/head.html',{
+	"title":"Agent commercial - GSEURO"
+	})
+	<body>
+		@@include('html/header.html',{})
+		@@include('html/nav-bar.html',{})
+		<section class="container commercial">
+			<div class="commercial__content">
+				<div class="commercial__text">
+					<h1 class="commercial__title">Agent commercial</h1>
+					<p class="commercial__description">GSD est votre partenaire privilégié pour l’approvisionnement complet en fils cuivre et aluminium. <br> Agent commercial de fabricants leaders dans leurs pays, nous vous permettons d’acheter directement auprès des câbleries, sans intermédiaires. Bénéficiez de tarifs compétitifs, d’un service réactif et de l’accès à une offre complète et maîtrisée indexée sur le cours des matières premières.</p>
+					<a href="contact.html" class="commercial__link">Contactez nous pour recevoir notre documentation et une offre personnalisée</a>
+					<button class="kablo__button button">
+						<span class="button__text">H07V-U/R</span>
+					</button>
+					<button class="alcobre__button button">
+						<span class="button__text">FR-NO7V-AR</span>
+					</button>
+				</div>
+				<div class="commercial__img">
+					<img src="img/agent-commercial-represantation.png" alt="agent-commercial-cables">
+				</div>
+			</div>
+			<div class="commercial__content">
+				<div class="commercial__text">
+					<h1 class="commercial__title">Rachat et recyclage de cuivre</h1>
+					<p class="commercial__description">Dans une démarche responsable et engagée, GSD propose le rachat de vos chutes de cuivre afin de leur offrir une seconde vie grâce au recyclage. Nous nous engageons à reprendre vos chutes au meilleur prix, indexé sur le cours LME du cuivre, tout en contribuant ensemble à une économie plus durable et circulaire.</p>
+					<a href="contact.html" class="commercial__link">Nous contacter pour recevoir notre documentation et une offre personnalisée</a>
+				</div>
+				<div class="commercial__img">
+					<img src="img/rachat-de-cuivre.png" alt="rachat-cuivre">
+				</div>
+			</div>
+		</section>
+		@@include('html/form.html')
+		@@include('html/footer.html',{})
+		<script type="module" src="/js/app.min.js"></script>
+	</body>
+</html>
