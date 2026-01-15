@@ -22,8 +22,19 @@ const port = 3000;
 dotenv.config();
 const require = createRequire(import.meta.url);
 
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+app.use(searchRoutes);
+app.use(cookieParser());
+app.use(cors()); // Allow cross-origin requests
+
 const USER_EMAIL = process.env.EMAIL_USER;
 const USER_PASS = process.env.EMAIL_PASS;
+
+app.get('/', (req, res) => {
+  res.json({ status: 'Backend API is running' });
+});
 
 app.get("/exchange-rate", async (req, res) => {
   try {
@@ -74,40 +85,8 @@ app.get("/exchange-rate/calendar-rates", async (req, res) => {
     res.status(500).json({ error: "Calendar rates failed to fetch" });
   }
 });
-  // try {
-  //   const data = await getCalendarRates();
-  //   const eurPerUsd = await getEurToUsdExchangeRate();
-  //   const dataInEur = [];
-  //   if (data && typeof eurPerUsd === 'number') {
-  //     for (const [date, rate] of Object.entries(data)) {
-  //       if (typeof rate === 'number') {
-  //         dataInEur.push({ date, eurPerTon: rate * 2204.62 * eurPerUsd });
-  //       }
-  //     }
-  //   }
-  //   res.json(dataInEur);
-  // } catch (err) {
-  //   console.error("[server.js] Error in /exchange-rate/last-month:", err)
-  //   res.status(500).json({ error: "Calendar rates failed to fetch"});
-  // }
-
-// const eurPerUsd = await getEurToUsdExchangeRate();
-// for (const date of uncachedDates) {
-//   if (rates[date] && typeof rates[date].XCU === "number") {
-//     const usdPerLb = rates[date].XCU;
-//     calendarRates[date] = usdPerLb * 2204.62 * eurPerUsd; // Convert to EUR/tonne
-//     cachedCalendarRate[date] = calendarRates[date];
-//   } else {
-//     calendarRates[date] = null;
-//   }
-// }
 
 
-// Middleware
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
-app.use(searchRoutes);
-app.use(cookieParser());
 
 // Routes
 // Redirect .html URLs to clean URLs
@@ -203,15 +182,6 @@ app.post('/submit-form', [
   }
 });
 
-// Static files AFTER dynamic routes to avoid conflicts
-app.use(express.static(path.join(__dirname, 'dist')));
-
-// Also handle requests that might have subdirectories but still be static files
-app.use('/css', express.static(path.join(__dirname, 'dist/css')));
-app.use('/js', express.static(path.join(__dirname, 'dist/js')));
-app.use('/img', express.static(path.join(__dirname, 'dist/img')));
-app.use('/images', express.static(path.join(__dirname, 'dist/images')));
-app.use('/assets', express.static(path.join(__dirname, 'dist/assets')));
 // Start server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
