@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const CopperExchangeCalendar = () => {
+const API_URL = "https://gseurodiffusion.onrender.com";
+
+export default function CopperExchangeCalendar() {
   const [currentEndDate, setCurrentEndDate] = useState(new Date());
   const [rates, setRates] = useState({});
   const [loading, setLoading] = useState(false);
@@ -60,7 +62,7 @@ useEffect(() => {
         const start = validDates[0];
         const end = validDates[validDates.length - 1];
 
-        const response = await fetch(`/exchange-rate/calendar-rates?start=${start}&end=${end}`);
+        const response = await fetch(`${API_URL}/exchange-rate/calendar-rates?start=${start}&end=${end}`);
         if (!response.ok){
           throw new Error(`HTTP error: ${response.status}`)
         };
@@ -130,22 +132,17 @@ useEffect(() => {
       {loading && <div className="loading-message">Chargement des taux de change...</div>}
       {error && <div className="error-message">Erreur: {error}</div>}
 
-      {/* Render the calendar grid only when not loading and no error */}
       {!loading && !error && (
         <div className="calendar-grid">
-          {/* Render day names (Mon, Tue, etc.) */}
           {dayNames.map(name => (
             <div key={name} className="day-name">{name}</div>
           ))}
-          {/* Render individual calendar day cells */}
           {calendarDays.map((date, index) => {
-            // Format the date to a string for lookup in the rates object
             const dateString = date.toISOString().split('T')[0];
-            // Get the rate for the current date
             const rate = rates[dateString];
             const isToday = date.toDateString() === today.toDateString();
             const isFutureDate = date > today;
-            const dayOfWeek = date.getDay(); // 0 = Sunday, 6 = Saturday
+            const dayOfWeek = date.getDay(); 
             const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
             const isCurrentMonth = date.getMonth() === currentEndDate.getMonth();
             const isSelected = selectedDate === dateString;
@@ -177,9 +174,8 @@ useEffect(() => {
                 className={`calendar-day ${isToday ? 'today' : ''} ${isCurrentMonth ? 'current-month' : ''} ${isSelected ? 'selected' : ''} ${rate && isMobile ? 'clickable' : ''}`}
                 onClick={() => handleDateClick(date, rate)}
               >
-                <div className="day-number">{date.getDate()}</div> {/* Display day number */}
+                <div className="day-number">{date.getDate()}</div>
                 <div className={`exchange-rate ${rateClass}`}>
-                  {/* Display rate if available, otherwise nothing */}
                   {displayContent}
                 </div>
               </div>
@@ -189,11 +185,9 @@ useEffect(() => {
       )}
       {isMobile && (
         <div className="mobile-hint">
-          💡 Choisisez une date pour voir le taux
+          💡 Choisissez une date pour voir le taux
         </div>
       )}
     </div>
   );
 };
-
-export default CopperExchangeCalendar;

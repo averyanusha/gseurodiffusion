@@ -4,6 +4,7 @@ import { create as createBrowserSync} from "browser-sync";
 import { path } from "./gulp/config/path.js";
 import { plugins } from "./gulp/config/plugins.js";
 import nodemon from "nodemon";
+import { createProxyMiddleware } from "http-proxy-middleware";
 
 
 export const browserSync = createBrowserSync();
@@ -47,10 +48,21 @@ export const startNodemon = (cb) => {
 
 function startBrowserSync(done) {
   browserSync.init({
-    proxy: 'http://localhost:3000',
-    port: 4000,
+    server: {
+      baseDir: './dist',
+    },
+    port: 3001,
     open: true,
     notify: false,
+    middleware: [
+      {
+        route: '/api',
+        handle: createProxyMiddleware({
+          target: 'http://localhost:3000',
+          changeOrigin: true,
+        }),
+      },
+    ],
   });
   done();
 }
@@ -63,13 +75,11 @@ import { server } from "./gulp/tasks/server.js";
 import { scss } from "./gulp/tasks/scss.js";
 import { js } from "./gulp/tasks/js.js";
 import { images } from "./gulp/tasks/images.js";
-import { otfToTtf, ttfToWoff, fontsStyle } from "./gulp/tasks/fonts.js";
 import { svgSpriteTask } from "./gulp/tasks/svg-sprive.js";
 import { zip } from "./gulp/tasks/zip.js";
 import { ftp } from "./gulp/tasks/ftp.js";
 import { reactTask } from "./gulp/tasks/react.js";
 
-// Наблюдатель за изменениями в файлах
 function watcher() {
 	gulp.watch(path.watch.files, copy);
 	gulp.watch(path.watch.html, gulp.series(html, (done) => {
@@ -91,24 +101,18 @@ function watcher() {
 	}));
 }
 
-// Последовательная обработака шрифтов
-const fonts = gulp.series(otfToTtf, ttfToWoff, fontsStyle);
 
-// Основные задачи
-const mainTasks = gulp.series(reset,gulp.parallel(copy, html, scss, js, images, reactTask, fonts));
+const mainTasks = gulp.series(reset,gulp.parallel(copy, html, scss, js, images, reactTask));
 
-// Построение сценариев выполнения задач
 const dev = gulp.series(reset, mainTasks, gulp.parallel(startNodemon, watcher, startBrowserSync));
 const gulpBuild = gulp.series(reset, mainTasks);
 const deployZIP = gulp.series(reset, mainTasks, zip);
 const deployFTP = gulp.series(reset, mainTasks, ftp);
 
-// Экспорт сценариев
 export { svgSpriteTask }
 export { dev }
 export { gulpBuild }
 export { deployZIP }
 export { deployFTP }
 
-// Выполнение сценария по умолчанию
 gulp.task('default', dev);

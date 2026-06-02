@@ -49,7 +49,6 @@ function TimelineBubble({ date, text, position }) {
     hover: { opacity: 0, y: -10, transition: { duration: 0.2 } },
   };
 
-  // Use BEM notation for class names
   const containerClasses = `bubble-container bubble-container--${position}`;
 
   return (

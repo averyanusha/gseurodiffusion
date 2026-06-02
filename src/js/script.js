@@ -59,7 +59,9 @@ document.addEventListener("click", (event) => {
 
 async function performSearch(query, resultsContainer) {
   try {
-    const response = await fetch(`${API_URL}/api/search?query=${encodeURIComponent(query)}`);
+    const url = `${API_URL}/api/search?query=${encodeURIComponent(query)}`;
+    console.log("FETCHING:", url, "query=", query);
+    const response = await fetch(url);
     const data = await response.json();
 
     clearSearch(resultsContainer);
@@ -369,13 +371,13 @@ function yearlyChart (labels, fetchedData) {
     },
     options: {
         responsive: true,
-        maintainAspectRatio: false, // Allow canvas to resize freely
+        maintainAspectRatio: false,
         plugins: {
           legend: {
             display: !mobile,
             position: 'top',
             labels: {
-                color: '#333' // Legend text color
+                color: '#333'
             },
             font: {
               size: mobile ? 10 : 12

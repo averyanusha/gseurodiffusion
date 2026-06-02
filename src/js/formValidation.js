@@ -107,9 +107,9 @@ export function validateForm(e){
       fullName: name.value,
       telephone: phone.value,
       email: email.value,
-      message: message.value
+      message: message ? message.value : ''
     };
-    fetch('/submit-form', {
+    fetch('/api/submit-form', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ export function validateForm(e){
         if (!response.ok) {
           return response.json().then(err => { throw new Error(err.message || 'Server error'); });
         }
-        return response.json(); // Parse the JSON response from your server
+        return response.json(); 
     })
     .then(data => {
         console.log('Success:', data);
@@ -128,10 +128,8 @@ export function validateForm(e){
         if (data.success) {
           resultDiv.textContent = data.message;
           resultDiv.style.color = 'green';
-          form.reset(); // Clear the form on successful submission
-          // You could also redirect the user or hide the form here
+          form.reset(); 
         } else {
-          // This block would run if the server sends { success: false, message: "..." }
           resultDiv.textContent = data.message || 'Erreur lors de l\'envoi.';
           resultDiv.style.color = 'red';
         }

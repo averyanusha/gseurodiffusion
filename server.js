@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 import session from "express-session";
 import cookieParser from "cookie-parser";
@@ -6,7 +8,6 @@ import path from "path";
 import fs from "fs";
 import { body, validationResult } from "express-validator";
 import { fileURLToPath } from "url";
-import dotenv from "dotenv";
 import nodemailer from "nodemailer";
 import {getCurrentExchangeRate, getMonthsRates, getCalendarRates } from "./exchangeRate.js";
 import { createRequire } from "module";
@@ -16,8 +17,6 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const PORT = process.env.PORT || 3000;
-dotenv.config();
-const require = createRequire(import.meta.url);
 
 // Middleware
 app.use(cors({
@@ -29,9 +28,6 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(searchRoutes);
 app.use(cookieParser());
-
-const USER_EMAIL = process.env.EMAIL_USER;
-const USER_PASS = process.env.EMAIL_PASS;
 
 app.get('/', (req, res) => {
   res.json({ status: 'Backend API is running' });
@@ -90,7 +86,6 @@ app.get("/exchange-rate/calendar-rates", async (req, res) => {
 
 
 // Routes
-// Redirect .html URLs to clean URLs
 app.get("/:page.html", (req, res) => {
   console.log(`Redirecting ${req.url} to /${req.params.page}`);
   res.redirect(301, "/" + req.params.page);
@@ -119,8 +114,6 @@ app.get("/:page", (req, res, next) => {
     console.log(`Skipping page route for static file: ${page}`);
     return next(); // Let static middleware handle it
   }
-  
-  // Skip if this is a path with a directory (like css/style.min.css)
   if (page.includes('.') && !page.endsWith('.html')) {
     console.log(`Skipping page route for file with extension: ${page}`);
     return next(); // Let static middleware handle it
@@ -144,43 +137,49 @@ app.get("/:page", (req, res, next) => {
   });
 });
 
-app.post('/submit-form', [
+app.post('/api/submit-form', [
   body('company').trim().escape(),
   body('fullName', 'Nom requis').trim().isLength({ min: 2 }),
   body('telephone', 'Numéro de téléphone invalide').isMobilePhone('fr-FR'),
   body('email', 'Adresse email invalide').isEmail()
 ], async (req, res) => {
-      console.log("Incoming form data:", req.body);
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.array() });
-      }
-      const transporter = nodemailer.createTransport({
-          port: 587,
-          secure: false,
-          auth: {
-            user: USER_EMAIL,
-            pass: USER_PASS
-          }
-      });
+    console.log("Incoming form data:", req.body);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+    const transporter = nodemailer.createTransport({
+        port: 587,
+        secure: false,
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS
+        }
+    });
 
-      const { company, fullName, telephone, email } = req.body;
+    try {
+      await transporter.verify();
+      console.log("Server is ready to take our messages");
+    } catch (err) {
+      console.error("Verification failed:", err);
+    }
 
-  // // Define the email content
-  //     const mailOptions = {
-  //     from: "smtp.office365.com",
-  //     to: 'c.rey@gseuro.fr', // Where the message will be sent
-  //     subject: 'Nouveau message du formulaire de contact',
-  //     text: `Société: ${company || 'Non précisé'}, Nom: ${fullName}, Téléphone: ${telephone}, Email: ${email}`
-  //   };
+    const { company, fullName, telephone, email } = req.body;
 
-  try {
-    await transporter.sendMail(mailOptions);
-    return res.json({ success: true, message: "Message envoyé avec succès !" });
-  } catch (error) {
-    console.error("Erreur d'envoi d'email:", error);
-    return res.status(500).json({ success: false, message: "Erreur lors de l'envoi du message." });
-  }
+    const mailOptions = {
+    from: "smtp.office365.com",
+    to: 'averyanusha@gmail.com',
+    subject: 'Nouveau message du formulaire de contact',
+    text: `Société: ${company || 'Non précisé'}, Nom: ${fullName}, Téléphone: ${telephone}, Email: ${email}`
+  };
+
+    try {
+      await transporter.sendMail(mailOptions);
+      return res.json({ success: true, message: "Message envoyé avec succès !" });
+    } catch (error) {
+      console.error("Erreur d'envoi d'email:", error);
+      return res.status(500).json({ success: false, message: "Erreur lors de l'envoi du message." });
+    }
 });
 
 // Start server

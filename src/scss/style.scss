@@ -252,13 +252,13 @@ body {
 
 .products {
 	display: flex;
+	flex: 1 1 calc(25% - 16px);
 	justify-content: space-evenly;
 	margin: auto;
 	box-sizing: border-box;
 	margin: 120px 50px;
 
 	&__item {
-		max-width: 20vw;
 		padding: 20px 0;
 		display: flex;
 		flex-direction: column;
@@ -280,7 +280,7 @@ body {
 }
 
 .item__link {
-	display: inline-block;
+	display: block;
 }
 
 .item__link img {
@@ -972,6 +972,20 @@ body {
 	}
 }
 
+.politic {
+	&__title {
+		font-size: 3em;
+		color: $blackColor;
+	}
+	&__subtitle {
+		font-size: 1.5em;
+		color: $blackColor;
+	}
+	&__text &__subtitle{
+		padding: 1em;
+	}
+}
+
 //footer 
 
 
@@ -1062,7 +1076,7 @@ body {
   &__link {
     color: $blackColor;
     font-weight: 200;
-    padding-top: 15px;
+    padding-top: 1em;
   }
   
   &__link:hover {
@@ -1223,6 +1237,10 @@ body {
 		&__item {
 			max-width: none;
 		}
+		&__titles {
+			font-size: 1.5em;
+			padding: 0.7em;
+		}
 	}
 	.timeline {
 		margin-bottom: 3rem;
@@ -1287,6 +1305,15 @@ body {
 			margin-top: 0.75rem;
 		}
 	}
+	.products {
+		margin: 3em;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: 16px;
+		&__item {
+			flex: 1 1 calc(50% - 16px);
+		}
+	}
 	.product {
 		transform: translateY(30px);
 		max-width: 100%;
@@ -1314,12 +1341,6 @@ body {
 	.exchange-rate {
 		font-size: 0.8rem;
 	}
-	.qualities {
-		&__titles {
-			font-size: 1.5em;
-			padding: 1em;
-		}
-	}
 	.form {
 		&__field {
 			max-width: none;
@@ -1335,6 +1356,9 @@ body {
 			max-width: 100%;
 		}
 	}
+	.footer__body {
+		padding: 0 25%;
+	}
 }
 
   @media (max-width: 600px) {
@@ -1348,9 +1372,6 @@ body {
 
 
 @media (max-width: 480px) {
-	body {
-		font-size: 10px;
-	}
 	.calendar-grid {
 		gap: 5px; /* Reduce gap between cells on very small screens */
 	}
@@ -1375,9 +1396,6 @@ body {
 		margin: 10px;
 		&__title {
 
-		}
-		&__link {
-			padding: 0;
 		}
 	}
 }
