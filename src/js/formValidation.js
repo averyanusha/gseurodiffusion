@@ -1,5 +1,3 @@
-import { dimensionValueTypes } from "framer-motion";
-
 const form = document.getElementById("form");
 const button = document.getElementById("form-button");
 const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://gseurodiffusion.onrender.com';
@@ -64,7 +62,6 @@ function checkBoxCheck (checkbox, errorElement) {
 }
 
 function displayError (inputElement, errorElement, message = '') {
-  console.log('displayError called:', message, errorElement);
   if (message) {
     inputElement.classList.add("invalid");
     errorElement.classList.add("show");
