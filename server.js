@@ -20,7 +20,7 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors({
-  origin: ['https://gseurodiffusion.fr'],
+  origin: ['https://gseurodiffusion.fr', 'http://localhost:3001'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 }));
 app.options(/.*/, cors());
@@ -36,8 +36,6 @@ app.get('/', (req, res) => {
 app.get("/exchange-rate", async (req, res) => {
   try {
     const data = await getCurrentExchangeRate();
-    // const eurPerUsd = await getEurToUsdExchangeRate();
-    console.log(data)
     if (data && typeof data === 'number') {
       // const eurPerTon = usdPerLb * 2204.62 * eurPerUsd; // lb → tonne, USD → EUR
       res.json({ data });
@@ -149,12 +147,13 @@ app.post('/api/submit-form', [
       return res.status(422).json({ errors: errors.array() });
     }
     const transporter = nodemailer.createTransport({
-        port: 587,
-        secure: false,
-        auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASS
-        }
+      host: 'smtp.office365.com',
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+      }
     });
 
     try {
@@ -164,13 +163,21 @@ app.post('/api/submit-form', [
       console.error("Verification failed:", err);
     }
 
-    const { company, fullName, telephone, email } = req.body;
+    const { company, fullName, telephone, email, message } = req.body;
 
     const mailOptions = {
-    from: "smtp.office365.com",
+    from: process.env.EMAIL_USER,
     to: 'averyanusha@gmail.com',
     subject: 'Nouveau message du formulaire de contact',
-    text: `Société: ${company || 'Non précisé'}, Nom: ${fullName}, Téléphone: ${telephone}, Email: ${email}`
+    html: `
+    <h2>Vous etiez contacté par</h2>
+    <p><strong>Société:</strong> ${company || 'Non précisé'}</p>
+    <p><strong>Nom:</strong> ${fullName}</p>
+    <p><strong>Téléphone:</strong> ${telephone}</p>
+    <p><strong>Email:</strong> ${email}</p>
+    <p><strong>Message:</strong> ${message ? message.value : 'Non précisé'}</p>`,
+    replyTo: email,
+    encoding: 'utf8'
   };
 
     try {

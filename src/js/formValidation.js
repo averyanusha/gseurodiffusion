@@ -2,8 +2,11 @@ import { dimensionValueTypes } from "framer-motion";
 
 const form = document.getElementById("form");
 const button = document.getElementById("form-button");
+const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://gseurodiffusion.onrender.com';
 
 form.noValidate = true;
+
+form.addEventListener('submit', validateForm);
 
 function checkName (name, errorElement) {
   const nameInput = name.value.trim();
@@ -108,8 +111,8 @@ export function validateForm(e){
       telephone: phone.value,
       email: email.value,
       message: message ? message.value : ''
-    };
-    fetch('/api/submit-form', {
+    }
+    fetch(`${API_URL}/api/submit-form`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -24,7 +24,7 @@ export default function PartnerSlider() {
     if (instanceRef.current) {
       interval = setInterval(() => {
         instanceRef.current.next();
-      }, 1000);
+      }, 1500);
     }
     return () => {
       if (interval) {
