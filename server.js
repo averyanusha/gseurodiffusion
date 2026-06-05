@@ -167,7 +167,7 @@ app.post('/api/submit-form', [
 
     const mailOptions = {
     from: process.env.EMAIL_USER,
-    to: 'c.rey@gseurodiffusion.fr',
+    to: 'averyanusha@gmail.com',
     subject: 'Nouveau message du formulaire de contact',
     html: `
     <h2>Vous etiez contacté par</h2>

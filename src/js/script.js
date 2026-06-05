@@ -121,7 +121,9 @@ async function performSearch(query, resultsContainer) {
     resultsContainer.style.display = "block";
   }
 }
-form.addEventListener("submit", validateForm);
+form.noValidate = true;
+
+form.addEventListener('submit', validateForm);
 
 // Scroll animation produits page 
 

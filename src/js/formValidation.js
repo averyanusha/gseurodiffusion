@@ -1,10 +1,5 @@
-const form = document.getElementById("form");
 const button = document.getElementById("form-button");
 const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://gseurodiffusion.onrender.com';
-
-form.noValidate = true;
-
-form.addEventListener('submit', validateForm);
 
 function checkName (name, errorElement) {
   const nameInput = name.value.trim();
