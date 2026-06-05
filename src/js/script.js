@@ -1,4 +1,5 @@
 // import Chart from "chart.js/auto";
+console.log('js is loaded')
 import { validateForm } from "./formValidation.js";
 
 const API_URL = 'https://gseurodiffusion.onrender.com';
@@ -123,7 +124,7 @@ async function performSearch(query, resultsContainer) {
 }
 form.noValidate = true;
 
-form.addEventListener('submit', validateForm);
+form.addEventListener('submit', validateForm, console.log('Form is sending'));
 
 // Scroll animation produits page 
 
