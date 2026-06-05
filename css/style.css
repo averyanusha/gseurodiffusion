@@ -1795,8 +1795,8 @@ body {
   font-weight: bold;
   text-align: center;
   padding: 10px 0;
-  color: #555; 
-  background-color: #f8f8f8;
+  color: #555; /* Medium grey text */
+  background-color: #f8f8f8; /* Light grey background */
   border-radius: 8px;
 }
 .day-number {
@@ -1808,7 +1808,7 @@ body {
 
 .exchange-rate {
   font-size: 0.9rem;
-  color: #2C5499; 
+  color: #2C5499; /* Green color for rates */
   font-weight: 500;
 }
 
@@ -1817,10 +1817,11 @@ body {
 }
 
 .exchange-rate.unavailable {
-  color: #e74c3c; 
+  color: #e74c3c; /* Red color for unavailable rates */
   font-style: italic;
 }
 
+/* Styling for loading and error messages */
 .loading-message, .error-message {
   text-align: center;
   padding: 20px;
@@ -1906,11 +1907,6 @@ body {
   font-size: 25px;
   border: 1px solid rgba(255, 0, 0, 0.467);
   border-radius: 20px;
-}
-
-.result {
-  color: white;
-  font-weight: 800;
 }
 
 .commercial__content {

@@ -1,4 +1,4 @@
-import Chart from "chart.js/auto";
+// import Chart from "chart.js/auto";
 import { validateForm } from "./formValidation.js";
 
 const API_URL = 'https://gseurodiffusion.onrender.com';
@@ -330,23 +330,23 @@ async function fetchRateFromServer() {
   }
 }
 
-async function fetchYearlyRates() {
-  try {
-    const response = await fetch(`${API_URL}/exchange-rate/last-12-months`);
-    if (!response.ok) {
-      throw new Error(`HTTP errror! Status: ${response.status}`);
-    }
-    const data = await response.json();
-    if (data && Array.isArray(data.labels) && Array.isArray(data.rates)) {
-      const convertedRates = data.rates.map(rate => rate ? parseFloat(rate.toFixed(2)) : null);
-      yearlyChart(data.labels, convertedRates);
-    } else {
-      console.error("Invalid data structure for yearly rates:", data);
-    }
-  } catch (error) {
-    console.error("Erreur de chargement des données:", error);
-  }
-}
+// async function fetchYearlyRates() {
+//   try {
+//     const response = await fetch(`${API_URL}/exchange-rate/last-12-months`);
+//     if (!response.ok) {
+//       throw new Error(`HTTP errror! Status: ${response.status}`);
+//     }
+//     const data = await response.json();
+//     if (data && Array.isArray(data.labels) && Array.isArray(data.rates)) {
+//       const convertedRates = data.rates.map(rate => rate ? parseFloat(rate.toFixed(2)) : null);
+//       yearlyChart(data.labels, convertedRates);
+//     } else {
+//       console.error("Invalid data structure for yearly rates:", data);
+//     }
+//   } catch (error) {
+//     console.error("Erreur de chargement des données:", error);
+//   }
+// }
 
 function yearlyChart (labels, fetchedData) {
   if (monthsChart) {
@@ -354,7 +354,8 @@ function yearlyChart (labels, fetchedData) {
   }
   const mobile = isMobile();
   const mobileLabels = isMobileLabels(labels);
-  monthsChart = new Chart(ctx, {
+  if (yearlyChart)
+    {monthsChart = new Chart(ctx, {
     type: 'line',
     data: {
       backgroundColor: '',
@@ -429,10 +430,11 @@ function yearlyChart (labels, fetchedData) {
           intersect: false
         }
       }
-  });
+    })
+  }
 }
 
-fetchYearlyRates();
+// fetchYearlyRates();
 
 if (kabloButton) {
   kabloButton.addEventListener('mouseenter', () => {

@@ -7,10 +7,10 @@ let cachedCurrentDate = null;
 let cachedEurToUsd = null;
 let cachedEurToUsdDate = null; 
 
-let cachedMonthlyRate = null;
-let cachedMonthlyDateMarker = null;
+// let cachedMonthlyRate = null;
+// let cachedMonthlyDateMarker = null;
 
-let cachedCalendarRate = {};
+// let cachedCalendarRate = {};
 
 const TROY_OZ_PER_TONNE = 31150.75;
 
@@ -102,43 +102,43 @@ export function generateLast12Months() {
   return {labels, apiDates};
 }
 
-export async function getMonthsRates(){
-  const today = new Date();
-  const currentMonthYear = `${today.getFullYear()}, ${today.getMonth()}`;
+// export async function getMonthsRates(){
+//   const today = new Date();
+//   const currentMonthYear = `${today.getFullYear()}, ${today.getMonth()}`;
 
-  if(cachedMonthlyRate !== null && cachedMonthlyDateMarker === currentMonthYear) {
-    return cachedMonthlyRate;
-  }
-  let monthlyData = [];
-  let {labels, apiDates} = generateLast12Months();
-  for (const dateString of apiDates){
-    try {
-      const url = `https://api.metalpriceapi.com/v1/${dateString}?api_key=${MY_API_KEY}&base=EUR&currencies=XCU`;
-      const response = await fetch(url, { mode: 'cors' });
-      if (!response.ok) {
-      throw new Error(`API Error: ${response.statusText}`);
-      }
-      const data = await response.json();
-      console.log(data);
-      if (data && data.rates && typeof data.rates.XCU === 'number') {
-        const pricePerTroyOz = data.rates.XCU;
-        const pricePerTonne = Math.round(pricePerTroyOz * TROY_OZ_PER_TONNE) * 100 / 1000;
-        monthlyData.push(pricePerTonne);
-      } else {
-        console.warn(`[getMonthsRates] No valid rate data for ${dateString}, pushing null.`);
-        monthlyData.push(null);
-      }
-    }
-    catch (error) {
-      console.error(`Error fetching data for ${today}:`, error);
-      monthlyData.push(null);
-    }
-  }
-  cachedMonthlyRate = { labels, rates: monthlyData };
-  cachedMonthlyDateMarker = currentMonthYear; 
-  console.log("[getMonthsRates] Fetched and cached new monthly data:", cachedMonthlyRate);
-  return cachedMonthlyRate;
-}
+//   if(cachedMonthlyRate !== null && cachedMonthlyDateMarker === currentMonthYear) {
+//     return cachedMonthlyRate;
+//   }
+//   let monthlyData = [];
+//   let {labels, apiDates} = generateLast12Months();
+//   for (const dateString of apiDates){
+//     try {
+//       const url = `https://api.metalpriceapi.com/v1/${dateString}?api_key=${MY_API_KEY}&base=EUR&currencies=XCU`;
+//       const response = await fetch(url, { mode: 'cors' });
+//       if (!response.ok) {
+//       throw new Error(`API Error: ${response.statusText}`);
+//       }
+//       const data = await response.json();
+//       console.log(data);
+//       if (data && data.rates && typeof data.rates.XCU === 'number') {
+//         const pricePerTroyOz = data.rates.XCU;
+//         const pricePerTonne = Math.round(pricePerTroyOz * TROY_OZ_PER_TONNE) * 100 / 1000;
+//         monthlyData.push(pricePerTonne);
+//       } else {
+//         console.warn(`[getMonthsRates] No valid rate data for ${dateString}, pushing null.`);
+//         monthlyData.push(null);
+//       }
+//     }
+//     catch (error) {
+//       console.error(`Error fetching data for ${today}:`, error);
+//       monthlyData.push(null);
+//     }
+//   }
+//   cachedMonthlyRate = { labels, rates: monthlyData };
+//   cachedMonthlyDateMarker = currentMonthYear; 
+//   console.log("[getMonthsRates] Fetched and cached new monthly data:", cachedMonthlyRate);
+//   return cachedMonthlyRate;
+// }
 
 // export function generateDates (start, end){
 //   const calendarDates = []
@@ -159,56 +159,56 @@ function* dateRange(startStr, endStr) {
   }
 }
 
-export async function getCalendarRates(startDateStr, endDateStr) {
-  const today = new Date();
-  today.setHours(0,0,0,0);
+// export async function getCalendarRates(startDateStr, endDateStr) {
+//   const today = new Date();
+//   today.setHours(0,0,0,0);
 
-  const result = {};
-  const uncachedDates = [];
+//   const result = {};
+//   const uncachedDates = [];
 
-  const allDates = [];
-  for (const d of dateRange(startDateStr, endDateStr)) {
-    d.setHours(0,0,0,0);
-    if (d > today) continue;
-    if (d.getDay() === 0 || d.getDay() === 6) continue; // skip weekends
-    const ds = d.toISOString().slice(0,10);
-    allDates.push(ds);
-    if (cachedCalendarRate[ds] !== undefined) {
-      result[ds] = cachedCalendarRate[ds];
-    } else {
-      uncachedDates.push(ds);
-    }
-  }
+//   const allDates = [];
+//   for (const d of dateRange(startDateStr, endDateStr)) {
+//     d.setHours(0,0,0,0);
+//     if (d > today) continue;
+//     if (d.getDay() === 0 || d.getDay() === 6) continue; // skip weekends
+//     const ds = d.toISOString().slice(0,10);
+//     allDates.push(ds);
+//     if (cachedCalendarRate[ds] !== undefined) {
+//       result[ds] = cachedCalendarRate[ds];
+//     } else {
+//       uncachedDates.push(ds);
+//     }
+//   }
 
-  if (uncachedDates.length === 0) 
-    return result;
+//   if (uncachedDates.length === 0) 
+//     return result;
 
-  const uncachedDatesStart = uncachedDates[0];
-  const uncachedDatesEnd = uncachedDates[uncachedDates.length - 1];
+//   const uncachedDatesStart = uncachedDates[0];
+//   const uncachedDatesEnd = uncachedDates[uncachedDates.length - 1];
 
-  const url = `https://api.metalpriceapi.com/v1/timeframe?api_key=${MY_API_KEY}&start_date=${uncachedDatesStart}&end_date=${uncachedDatesEnd}&base=EUR&currencies=XCU&`;
+//   const url = `https://api.metalpriceapi.com/v1/timeframe?api_key=${MY_API_KEY}&start_date=${uncachedDatesStart}&end_date=${uncachedDatesEnd}&base=EUR&currencies=XCU&`;
 
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`MetalPrice API error: ${response.status} ${response.statusText}`);
-  }
-  const data = await response.json();
-  const rates = data?.rates || {};
+//   const response = await fetch(url);
+//   if (!response.ok) {
+//     throw new Error(`MetalPrice API error: ${response.status} ${response.statusText}`);
+//   }
+//   const data = await response.json();
+//   const rates = data?.rates || {};
 
-  for (const ds of uncachedDates) {
-    if (rates[ds] && typeof rates[ds].XCU === "number"){
-      const pricePerTroyOz = 1 / rates[ds].XCU;
-      const pricePerTonne = Math.round(pricePerTroyOz * TROY_OZ_PER_TONNE) * 100 / 100;
-      cachedCalendarRate[ds] = pricePerTonne;
-      result[ds] = pricePerTonne;
-    } else {
-      cachedCalendarRate[ds] = null;
-      result[ds] = null;
-    }
-  }
+//   for (const ds of uncachedDates) {
+//     if (rates[ds] && typeof rates[ds].XCU === "number"){
+//       const pricePerTroyOz = 1 / rates[ds].XCU;
+//       const pricePerTonne = Math.round(pricePerTroyOz * TROY_OZ_PER_TONNE) * 100 / 100;
+//       cachedCalendarRate[ds] = pricePerTonne;
+//       result[ds] = pricePerTonne;
+//     } else {
+//       cachedCalendarRate[ds] = null;
+//       result[ds] = null;
+//     }
+//   }
 
-  return result; // { '2025-08-01': 4.17, ... } USD/lb
-}
+//   return result; // { '2025-08-01': 4.17, ... } USD/lb
+// }
 
 // export async function getCalendarRates(dates) {
 //   const calendarRates = {};

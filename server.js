@@ -9,7 +9,7 @@ import fs from "fs";
 import { body, validationResult } from "express-validator";
 import { fileURLToPath } from "url";
 import nodemailer from "nodemailer";
-import {getCurrentExchangeRate, getMonthsRates, getCalendarRates } from "./exchangeRate.js";
+import {getCurrentExchangeRate} from "./exchangeRate.js";
 import { createRequire } from "module";
 import searchRoutes from "./search.js"
 
@@ -48,38 +48,38 @@ app.get("/exchange-rate", async (req, res) => {
   }
 })
 
-app.get("/exchange-rate/last-12-months", async (req, res) => {
-  try {
-    const data = await getMonthsRates();
-    res.json(data);
-  } catch (err) {
-    console.error("[server.js] Error in /exchange-rate/last-12-months:", err);
-    res.status(500).json({ error: "Monthly exchange rate fetch failed" });
-  }
-})
+// app.get("/exchange-rate/last-12-months", async (req, res) => {
+//   try {
+//     const data = await getMonthsRates();
+//     res.json(data);
+//   } catch (err) {
+//     console.error("[server.js] Error in /exchange-rate/last-12-months:", err);
+//     res.status(500).json({ error: "Monthly exchange rate fetch failed" });
+//   }
+// })
 
-app.get("/exchange-rate/calendar-rates", async (req, res) => {
-  try {
-    const { start, end } = req.query;
-    const iso = s => /^\d{4}-\d{2}-\d{2}$/.test(s || "");
+// app.get("/exchange-rate/calendar-rates", async (req, res) => {
+//   try {
+//     const { start, end } = req.query;
+//     const iso = s => /^\d{4}-\d{2}-\d{2}$/.test(s || "");
     
-    if (!iso(start) || !iso(end)) {
-      return res.status(400).json({ error: "Missing or invalid start/end (YYYY-MM-DD)" });
-    }
-    if (start > end) {
-      return res.status(400).json({ error: "start must be <= end" });
-    }
+//     if (!iso(start) || !iso(end)) {
+//       return res.status(400).json({ error: "Missing or invalid start/end (YYYY-MM-DD)" });
+//     }
+//     if (start > end) {
+//       return res.status(400).json({ error: "start must be <= end" });
+//     }
 
-    // Get rates directly in EUR/tonne from your function
-    const pricePerTonByDate = await getCalendarRates(start, end);
+//     // Get rates directly in EUR/tonne from your function
+//     const pricePerTonByDate = await getCalendarRates(start, end);
 
-    res.json(pricePerTonByDate);
+//     res.json(pricePerTonByDate);
     
-  } catch (err) {
-    console.error("[server.js] Error in /exchange-rate/calendar-rates:", err);
-    res.status(500).json({ error: "Calendar rates failed to fetch" });
-  }
-});
+//   } catch (err) {
+//     console.error("[server.js] Error in /exchange-rate/calendar-rates:", err);
+//     res.status(500).json({ error: "Calendar rates failed to fetch" });
+//   }
+// });
 
 
 
