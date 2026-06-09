@@ -104,6 +104,8 @@ export function validateForm(e){
       email: email.value,
       message: message ? message.value : ''
     }
+    console.log('Form is valid, submitting');
+    console.log('API_URL:', API_URL);
     fetch(`${API_URL}/api/submit-form`, {
         method: 'POST',
         headers: {
@@ -123,6 +125,7 @@ export function validateForm(e){
         if (data.success) {
           resultDiv.textContent = data.message;
           resultDiv.style.color = 'green';
+          resultDiv.style.fontWeight = '800';
           form.reset(); 
         } else {
           resultDiv.textContent = data.message || 'Erreur lors de l\'envoi.';

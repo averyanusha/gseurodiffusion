@@ -1,5 +1,4 @@
 // import Chart from "chart.js/auto";
-console.log('js is loaded')
 import { validateForm } from "./formValidation.js";
 
 const API_URL = 'https://gseurodiffusion.onrender.com';
@@ -19,6 +18,10 @@ const cards = document.querySelectorAll('.card');
 const closeButtons = document.querySelectorAll('.card__close');
 const kabloButton = document.querySelector(".kablo__button");
 const alcobreButton = document.querySelector(".alcobre__button");
+
+form.noValidate = true;
+
+form.addEventListener('submit', validateForm);
 
 fetchRateFromServer();
 
@@ -122,10 +125,6 @@ async function performSearch(query, resultsContainer) {
     resultsContainer.style.display = "block";
   }
 }
-form.noValidate = true;
-
-form.addEventListener('submit', validateForm, console.log('Form is sending'));
-
 // Scroll animation produits page 
 
 const observer = new IntersectionObserver(entries => {
