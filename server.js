@@ -33,7 +33,7 @@ app.use(cookieParser());
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization'];
-  const toke = authHeader && authHeader.split(' ')[1];
+  const token = authHeader && authHeader.split(' ')[1];
 
   if (!token) {
     return res.status(401).json({ error: 'No token provided' });
