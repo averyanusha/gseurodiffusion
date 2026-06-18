@@ -13,6 +13,7 @@ import { createRequire } from "module";
 import searchRoutes from "./search.js"
 import pool from './db.js'
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -29,6 +30,23 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(searchRoutes);
 app.use(cookieParser());
+
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const toke = authHeader && authHeader.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).json({ error: 'No token provided' });
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ error: "Invalid or expired token" });
+    }
+    req.user = decoded;
+    next();
+  })
+}
 
 // app.get('/', (req, res) => {
 //   res.json({ status: 'Backend API is running' });
@@ -203,7 +221,16 @@ app.post('/api/login', async (req, res) => {
   if (!passwordCheck) {
     return res.status(401).json({ error: 'Invalid credentials'});
   }
-  console.log(passwordCheck);
+  const token = jwt.sign(
+    {userId: user.id, username: user.username},
+    process.env.JWT_SECRET,
+    { expiresIn: '3h'}
+  );
+  res.json({ token });
+})
+
+app.get('/api/verify', authenticateToken, (req, res) => {
+  res.json({ valid: true});
 })
 // Start server
 app.listen(PORT, () => {

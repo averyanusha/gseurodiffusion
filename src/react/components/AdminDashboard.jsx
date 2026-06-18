@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 
 import { motion } from 'framer-motion';
 
@@ -11,6 +11,7 @@ export default function AdminDashboard() {
   }
   return (
     <div className="dashboard-container">
+      <h1>Hello</h1>
       <div className="dashboard-left"></div>
       <div className="dashboard-right">
         <button className="" onClick={() => setRateIsClicked(true)}>

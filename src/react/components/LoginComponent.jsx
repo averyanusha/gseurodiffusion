@@ -16,7 +16,9 @@ export default function Login({ onSuccess }){
       },
       body: JSON.stringify({username, password})
     });
+    const data = await response.json();
     if (response.ok) {
+      localStorage.setItem('token', data.token);
       onSuccess()
     }
   }
@@ -24,7 +26,7 @@ export default function Login({ onSuccess }){
   return (
     <motion.div className='login'>
       <motion.form onSubmit={handleLogin} className='login-form'>
-        <input type="text" className="login-input" id='username' placeholder='Login' onChange={(e) => {setUsername(e.target.value)}}/>
+        <input type="text" className="login-input" id='username' placeholder='Login' onChange={(e) => {setUsername(e.target.value)}} onKeyDown={handleLogin}/>
         <input type="password" className="login-input" id='password' placeholder='Mot de passe' onChange={(e) => {setPassword(e.target.value)}} />
         <button type="submit" className="login-button">Se connecter</button>
       </motion.form>
