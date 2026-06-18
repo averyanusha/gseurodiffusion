@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import PartnerSlider from './components/PartnerSlider.jsx';
 import Timeline from './components/TimelineComponent.jsx';
+import Dashboard from './components/DashboardComponent.jsx';
 import { ErrorBoundary } from 'react-error-boundary';
 
 function ErrorFallback({error}){
@@ -11,14 +12,8 @@ function ErrorFallback({error}){
 const calendarContainer = document.getElementById('calendar-root');
 const carouselContainer = document.getElementById('carousel-root');
 const timelineContainer = document.getElementById('timeline-root');
+const dashboardContainer = document.getElementById('dashboard-root');
 
-// if (calendarContainer) {
-//   createRoot(calendarContainer).render(
-//       <ErrorBoundary FallbackComponent={ErrorFallback}>
-//         <CalendarComponent />
-//       </ErrorBoundary>
-//   );
-// }
 if (carouselContainer) {
   createRoot(carouselContainer).render(
       <PartnerSlider />);
@@ -27,6 +22,10 @@ if (carouselContainer) {
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Timeline />
     </ErrorBoundary>
+  )
+} else if (dashboardContainer) {
+  createRoot(dashboardContainer).render(
+    <Dashboard />
   )
 } else {
   console.warn('No matching React component root found on this page.');

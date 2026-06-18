@@ -6,7 +6,6 @@ const nav = document.getElementById('nav');
 const header = document.getElementById('header');
 const hamburgerButton = document.getElementById('mobile');
 const ctx = document.getElementById('yearlyChart');
-const sticky = nav.offsetTop;
 const form = document.getElementById('form');
 let searchQuery = document.querySelector('.search__input');
 let searchResult = document.querySelector('.search__list');
@@ -22,8 +21,6 @@ const alcobreButton = document.querySelector(".alcobre__button");
 form.noValidate = true;
 
 form.addEventListener('submit', validateForm);
-
-fetchRateFromServer();
 
 function clearSearch(resultsContainer) {
   if (!resultsContainer) {
@@ -307,30 +304,30 @@ window.addEventListener('scroll', () => {
 // The page for rate of copper
 
 
-async function fetchRateFromServer() {
-  let rateHeader = document.querySelector('#rateHeader a');
-  let ratePage = document.getElementById("rate");
-  try {
-    const response = await fetch(`${API_URL}/exchange-rate`);
-    if (!response.ok) {
-      throw new Error (`HTTP Error, status: ${response.status}`);
-    }
-    const data = await response.json();
-    if (typeof data.data === 'number') {
-      const displayRate = (data.data);
-      if (rateHeader) {
-        rateHeader.textContent = `${displayRate.toFixed(2)} eur/Ton`;
-      }
-      if (ratePage) {
-        ratePage.textContent = `${displayRate.toFixed(2)} EUR/TONNE`;
-      }
-    } else {
-        console.error("[script.js] Invalid rate data received:", data);
-    }
-  } catch (error) {
-    console.error("Couldnt fetch the data", error);
-  }
-}
+// async function fetchRateFromServer() {
+//   let rateHeader = document.querySelector('#rateHeader a');
+//   let ratePage = document.getElementById("rate");
+//   try {
+//     const response = await fetch(`${API_URL}/exchange-rate`);
+//     if (!response.ok) {
+//       throw new Error (`HTTP Error, status: ${response.status}`);
+//     }
+//     const data = await response.json();
+//     if (typeof data.data === 'number') {
+//       const displayRate = (data.data);
+//       if (rateHeader) {
+//         rateHeader.textContent = `${displayRate.toFixed(2)} eur/Ton`;
+//       }
+//       if (ratePage) {
+//         ratePage.textContent = `${displayRate.toFixed(2)} EUR/TONNE`;
+//       }
+//     } else {
+//         console.error("[script.js] Invalid rate data received:", data);
+//     }
+//   } catch (error) {
+//     console.error("Couldnt fetch the data", error);
+//   }
+// }
 
 // async function fetchYearlyRates() {
 //   try {

@@ -9,9 +9,10 @@ import fs from "fs";
 import { body, validationResult } from "express-validator";
 import { fileURLToPath } from "url";
 import nodemailer from "nodemailer";
-import {getCurrentExchangeRate} from "./exchangeRate.js";
 import { createRequire } from "module";
 import searchRoutes from "./search.js"
+import pool from './db.js'
+import bcrypt from 'bcrypt';
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -29,24 +30,24 @@ app.use(express.urlencoded({extended: true}));
 app.use(searchRoutes);
 app.use(cookieParser());
 
-app.get('/', (req, res) => {
-  res.json({ status: 'Backend API is running' });
-});
+// app.get('/', (req, res) => {
+//   res.json({ status: 'Backend API is running' });
+// });
 
-app.get("/exchange-rate", async (req, res) => {
-  try {
-    const data = await getCurrentExchangeRate();
-    if (data && typeof data === 'number') {
-      // const eurPerTon = usdPerLb * 2204.62 * eurPerUsd; // lb → tonne, USD → EUR
-      res.json({ data });
-    } else {
-      res.status(500).json({ error: "Exchange rate data incomplete." });
-    }
-  } catch (err) {
-    console.error("[server.js] Error in /exchange-rate:", err);
-    res.status(500).json({ error: "Exchange rate fetch failed" });
-  }
-})
+// app.get("/exchange-rate", async (req, res) => {
+//   try {
+//     const data = await getCurrentExchangeRate();
+//     if (data && typeof data === 'number') {
+//       // const eurPerTon = usdPerLb * 2204.62 * eurPerUsd; // lb → tonne, USD → EUR
+//       res.json({ data });
+//     } else {
+//       res.status(500).json({ error: "Exchange rate data incomplete." });
+//     }
+//   } catch (err) {
+//     console.error("[server.js] Error in /exchange-rate:", err);
+//     res.status(500).json({ error: "Exchange rate fetch failed" });
+//   }
+// })
 
 // app.get("/exchange-rate/last-12-months", async (req, res) => {
 //   try {
@@ -189,6 +190,21 @@ app.post('/api/submit-form', [
     }
 });
 
+app.post('/api/login', async (req, res) => {
+  const { username, password } = req.body;
+  const response = await pool.query('SELECT * FROM users WHERE username = $1', [username])
+
+  if (response.rows.length === 0) {
+    return res.status(401).json({ error: 'Invalid credentials'});
+  }
+  const user = response.rows[0];
+
+  const passwordCheck = await bcrypt.compare(password, user.password_hash);
+  if (!passwordCheck) {
+    return res.status(401).json({ error: 'Invalid credentials'});
+  }
+  console.log(passwordCheck);
+})
 // Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

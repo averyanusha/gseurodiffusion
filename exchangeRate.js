@@ -46,61 +46,61 @@ const TROY_OZ_PER_TONNE = 31150.75;
 //   }
 // }
 
-export async function getCurrentExchangeRate(){
-      const today = new Date();
-      today.setHours(0, 0, 0, 0); // Normalize to start of day
-      const todayDateString = today.toISOString().split("T")[0];
-      // const yesterday = new Date(today);
-      // yesterday.setDate(today.getDate() - 1);
-      // const yesterdayDateString = yesterday.toISOString().split("T")[0];
+// export async function getCurrentExchangeRate(){
+//       const today = new Date();
+//       today.setHours(0, 0, 0, 0); // Normalize to start of day
+//       const todayDateString = today.toISOString().split("T")[0];
+//       // const yesterday = new Date(today);
+//       // yesterday.setDate(today.getDate() - 1);
+//       // const yesterdayDateString = yesterday.toISOString().split("T")[0];
 
-      // const dayOfTheWeek = today.getDay();
-      if (cachedDailyRate !== null && cachedCurrentDate === todayDateString) {
-        return cachedDailyRate;
-      } else {
-          try {
-            const url = `https://api.metalpriceapi.com/v1/latest?api_key=${MY_API_KEY}&base=EUR&currencies=XCU`;
-            const response = await fetch(url, { mode: 'cors' });
-            if (!response.ok) {
-              console.error(`API response not OK for ${today}:`, response.status, response.statusText);
-              throw new Error(`API response error: ${response.status}`);
-            }
-            const data = await response.json();
-            if(data && data.rates.XCU && typeof data.rates.XCU === 'number'){
-              const pricePerTroyOz = data.rates.XCU;
-              const pricePerTonne = pricePerTroyOz * TROY_OZ_PER_TONNE;
-            cachedDailyRate = Math.round(pricePerTonne * 100) / 1000; // Round to 2 decimals
-            cachedCurrentDate = todayDateString;
-            console.log("Calculated EUR/tonne:", cachedDailyRate);
-            return cachedDailyRate;
-            } else {
-                console.error("[getCurrentExchangeRate] Invalid response format from API:");
-                throw new Error("Invalid API response format for current rate.");
-            }
-          } catch (error) {
-            console.error("Error in getCurrentExchangeRate:", error);
-            return { cachedDailyDate: null }; // Return nulls on overall failure
-          }
-        }
-    }
+//       // const dayOfTheWeek = today.getDay();
+//       if (cachedDailyRate !== null && cachedCurrentDate === todayDateString) {
+//         return cachedDailyRate;
+//       } else {
+//           try {
+//             const url = `https://api.metalpriceapi.com/v1/latest?api_key=${MY_API_KEY}&base=EUR&currencies=XCU`;
+//             const response = await fetch(url, { mode: 'cors' });
+//             if (!response.ok) {
+//               console.error(`API response not OK for ${today}:`, response.status, response.statusText);
+//               throw new Error(`API response error: ${response.status}`);
+//             }
+//             const data = await response.json();
+//             if(data && data.rates.XCU && typeof data.rates.XCU === 'number'){
+//               const pricePerTroyOz = data.rates.XCU;
+//               const pricePerTonne = pricePerTroyOz * TROY_OZ_PER_TONNE;
+//             cachedDailyRate = Math.round(pricePerTonne * 100) / 1000; // Round to 2 decimals
+//             cachedCurrentDate = todayDateString;
+//             console.log("Calculated EUR/tonne:", cachedDailyRate);
+//             return cachedDailyRate;
+//             } else {
+//                 console.error("[getCurrentExchangeRate] Invalid response format from API:");
+//                 throw new Error("Invalid API response format for current rate.");
+//             }
+//           } catch (error) {
+//             console.error("Error in getCurrentExchangeRate:", error);
+//             return { cachedDailyDate: null }; // Return nulls on overall failure
+//           }
+//         }
+//     }
 
-export function generateLast12Months() {
-  const today = new Date();
-  const monthsNames = ["Janvier","Fevrier","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","November","Decembre"];
-  let apiDates = [];
-  let labels = [];
-  for (let i = 0; i < 12; i++){
-    const date = new Date(today.getFullYear(), today.getMonth() - i, 15);
-    const month = date.getMonth();
-    const year = date.getFullYear();
-    const label = `${monthsNames[month]} ${year}`;
-    labels.push(label);
-    const apiMonth = String(month + 1).padStart(2, '0'); // +1 because months are 0-indexed, padstart adds 0 to ensure the month is 2 digits 
-    const apiDate = `${year}-${apiMonth}-01`;
-    apiDates.push(apiDate);
-  }
-  return {labels, apiDates};
-}
+// export function generateLast12Months() {
+//   const today = new Date();
+//   const monthsNames = ["Janvier","Fevrier","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","November","Decembre"];
+//   let apiDates = [];
+//   let labels = [];
+//   for (let i = 0; i < 12; i++){
+//     const date = new Date(today.getFullYear(), today.getMonth() - i, 15);
+//     const month = date.getMonth();
+//     const year = date.getFullYear();
+//     const label = `${monthsNames[month]} ${year}`;
+//     labels.push(label);
+//     const apiMonth = String(month + 1).padStart(2, '0'); // +1 because months are 0-indexed, padstart adds 0 to ensure the month is 2 digits 
+//     const apiDate = `${year}-${apiMonth}-01`;
+//     apiDates.push(apiDate);
+//   }
+//   return {labels, apiDates};
+// }
 
 // export async function getMonthsRates(){
 //   const today = new Date();
@@ -151,13 +151,13 @@ export function generateLast12Months() {
 //   return calendarDates;
 // }
 
-function* dateRange(startStr, endStr) {
-  const start = new Date(startStr);
-  const end = new Date(endStr);
-  for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-    yield new Date(d);
-  }
-}
+// function* dateRange(startStr, endStr) {
+//   const start = new Date(startStr);
+//   const end = new Date(endStr);
+//   for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+//     yield new Date(d);
+//   }
+// }
 
 // export async function getCalendarRates(startDateStr, endDateStr) {
 //   const today = new Date();
