@@ -14,8 +14,8 @@ export default function Dashboard() {
 
       const response = await fetch(`${API_URL}/api/verify`, {
         method: 'GET',
-        header: {
-          'Authorization': 'Beared ${token}'
+        headers: {
+          'Authorization': `Bearer ${token}`
         }
       })
 
@@ -25,7 +25,10 @@ export default function Dashboard() {
     }
   checkIfToken();
   },[])
+
   return (
-    isLoggedin ? <AdminDashboard /> : <Login onSuccess={() => setIsLoggedIn(true)}/>
+    <div className="dashboard">
+      {isLoggedin ? <AdminDashboard /> : <Login onSuccess={() => setIsLoggedIn(true)}/>}
+    </div>
   )
 }

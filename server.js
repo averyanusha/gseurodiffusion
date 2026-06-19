@@ -226,11 +226,17 @@ app.post('/api/login', async (req, res) => {
     process.env.JWT_SECRET,
     { expiresIn: '3h'}
   );
-  res.json({ token });
+  res.json({ token }); 
 })
 
 app.get('/api/verify', authenticateToken, (req, res) => {
   res.json({ valid: true});
+})
+
+app.post('/api/setRate', async (req, res) => {
+  const rate = req.body;
+  const today = new Date().toISOString().split("T")[0];
+  const response = await pool.query('INSERT INTO coursdecuivre (value, date, submitted_by) VALUES ($1, $2, $3)', [rate, today])
 })
 // Start server
 app.listen(PORT, () => {

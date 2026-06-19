@@ -1084,6 +1084,13 @@ body {
   }
 }
 
+.dashboard {
+	margin: 100px 0;
+	&-title {
+		font-size: 3rem;
+	}
+}
+
 .login {
 	  max-width: 300px;
 		margin: 0 auto;
@@ -1097,11 +1104,42 @@ body {
 		flex-direction: column;
 		align-items: center;
 	}
-	&-input {
-		display: block;
+	input {
 		padding: 0.5rem 1rem;
 		border-radius: 10px;
 		margin: 1rem;
+	}
+}
+
+.password-wrapper {
+	position: relative;
+}
+
+.password-button {
+	min-height: 25px;
+	min-width: 25px;
+	position: absolute;
+	right: 10%;
+  transform: translateY(-50%);
+	background-repeat: no-repeat;
+	background-position: left top;
+	cursor: pointer;
+}
+
+.hidden-password {
+	top: 65%;
+	background-image: url('../img/password-hidden.svg');
+}
+
+.visible-password {
+	top: 55%;
+	background-image: url('../img/password-visible.svg');
+}
+
+.rate {
+	&-input {
+		display: block;
+		padding: 1rem;
 	}
 }
 
