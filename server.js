@@ -233,10 +233,15 @@ app.get('/api/verify', authenticateToken, (req, res) => {
   res.json({ valid: true});
 })
 
-app.post('/api/setRate', async (req, res) => {
-  const rate = req.body;
+app.post('/api/setRate',  authenticateToken, async (req, res) => {
+  const { currentRate } = req.body;
+  const user = req.user.userId;
   const today = new Date().toISOString().split("T")[0];
-  const response = await pool.query('INSERT INTO coursdecuivre (value, date, submitted_by) VALUES ($1, $2, $3)', [rate, today])
+  const response = await pool.query('INSERT INTO coursdecuivre (value, date, submitted_by) VALUES ($1, $2, $3)', [currentRate, today, user]);
+
+  console.log(`${currentRate} has been stored in database by ${user}`)
+
+  res.json({ success: true});
 })
 // Start server
 app.listen(PORT, () => {
