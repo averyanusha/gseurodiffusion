@@ -6,7 +6,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import path from "path";
 import fs from "fs";
-import { body, validationResult } from "express-validator";
+import { body, query, validationResult } from "express-validator";
 import { fileURLToPath } from "url";
 import nodemailer from "nodemailer";
 import { createRequire } from "module";
@@ -48,9 +48,9 @@ function authenticateToken(req, res, next) {
   })
 }
 
-// app.get('/', (req, res) => {
-//   res.json({ status: 'Backend API is running' });
-// });
+app.get('/', (req, res) => {
+  res.json({ status: 'Backend API is running' });
+});
 
 // app.get("/exchange-rate", async (req, res) => {
 //   try {
@@ -239,9 +239,17 @@ app.post('/api/setRate',  authenticateToken, async (req, res) => {
   const today = new Date().toISOString().split("T")[0];
   const response = await pool.query('INSERT INTO coursdecuivre (value, date, submitted_by) VALUES ($1, $2, $3)', [currentRate, today, user]);
 
-  console.log(`${currentRate} has been stored in database by ${user}`)
+  console.log(`${currentRate} has been stored in database`)
 
-  res.json({ success: true});
+  res.json({ success: true });
+})
+
+app.get('/api/rates/latest', async (req, res) => {
+  const result = await pool.query('SELECT value, date FROM coursdecuivre ORDER BY date DESC LIMIT 1');
+  if (result.rows.length === 0) {
+    return res.status(401).json({ error: 'No rate was stored'});
+  }
+  res.json(result.rows[0]);
 })
 // Start server
 app.listen(PORT, () => {

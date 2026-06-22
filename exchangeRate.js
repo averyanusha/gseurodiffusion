@@ -4,9 +4,6 @@ const MY_API_KEY = process.env.MY_API_KEY;
 let cachedDailyRate = null;
 let cachedCurrentDate = null;
 
-let cachedEurToUsd = null;
-let cachedEurToUsdDate = null; 
-
 // let cachedMonthlyRate = null;
 // let cachedMonthlyDateMarker = null;
 

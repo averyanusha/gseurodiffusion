@@ -304,134 +304,111 @@ window.addEventListener('scroll', () => {
 // The page for rate of copper
 
 
-// async function fetchRateFromServer() {
-//   let rateHeader = document.querySelector('#rateHeader a');
-//   let ratePage = document.getElementById("rate");
-//   try {
-//     const response = await fetch(`${API_URL}/exchange-rate`);
-//     if (!response.ok) {
-//       throw new Error (`HTTP Error, status: ${response.status}`);
-//     }
-//     const data = await response.json();
-//     if (typeof data.data === 'number') {
-//       const displayRate = (data.data);
-//       if (rateHeader) {
-//         rateHeader.textContent = `${displayRate.toFixed(2)} eur/Ton`;
-//       }
-//       if (ratePage) {
-//         ratePage.textContent = `${displayRate.toFixed(2)} EUR/TONNE`;
-//       }
-//     } else {
-//         console.error("[script.js] Invalid rate data received:", data);
-//     }
-//   } catch (error) {
-//     console.error("Couldnt fetch the data", error);
-//   }
-// }
+async function fetchRateFromDb() {
+  let rateHeader = document.querySelector('#rateHeader a');
+  let ratePage = document.getElementById("rate");
 
-// async function fetchYearlyRates() {
-//   try {
-//     const response = await fetch(`${API_URL}/exchange-rate/last-12-months`);
-//     if (!response.ok) {
-//       throw new Error(`HTTP errror! Status: ${response.status}`);
-//     }
-//     const data = await response.json();
-//     if (data && Array.isArray(data.labels) && Array.isArray(data.rates)) {
-//       const convertedRates = data.rates.map(rate => rate ? parseFloat(rate.toFixed(2)) : null);
-//       yearlyChart(data.labels, convertedRates);
-//     } else {
-//       console.error("Invalid data structure for yearly rates:", data);
-//     }
-//   } catch (error) {
-//     console.error("Erreur de chargement des données:", error);
-//   }
-// }
+  const response = await fetch(`${API_URL}/api/rates/latest`);
+  const data = await response.json();
 
-function yearlyChart (labels, fetchedData) {
-  if (monthsChart) {
-    monthsChart.destroy();
-  }
-  const mobile = isMobile();
-  const mobileLabels = isMobileLabels(labels);
-  if (yearlyChart)
-    {monthsChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      backgroundColor: '',
-      labels: mobileLabels.reverse(),
-      datasets: [{
-        label: mobile ? 'Prix EUR/Ton' : `Prix d'une tonne de cuivre au cours de la dernière année`,
-        backgroundColor: '#2C5499',
-        data: fetchedData.reverse(),
-        fill: false,
-        tension: 0.1,
-        pointRadius: mobile ? 3 : 5,
-        pointHoverRadius: mobile ? 6 : 8
-      }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: !mobile,
-            position: 'top',
-            labels: {
-                color: '#333'
-            },
-            font: {
-              size: mobile ? 10 : 12
-            }
-          },
-          tooltip: {
-            callbacks: {
-                label: function(context) {
-                    let label = context.dataset.label || '';
-                    if (label) {
-                        label += ': ';
-                    }
-                    if (context.parsed.y !== null) {
-                        label += new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(context.parsed.y) + '/Ton';
-                    }
-                    return label;
-                }
-            }
-          }
-        },
-        scales: {
-          y: {
-            beginAtZero: false,
-            ticks: {
-              color: '#666',
-              font: {
-                size: mobile ? 10 : 12
-              },
-              callback: function(value) {
-                return mobile 
-                  ? `${(value / 1000).toFixed(1)}k €` 
-                  : `${value.toFixed(0)} €`;
-              }
-            },
-            title: {
-              display: !mobile,
-              text: 'Prix (EUR/Ton)',
-              color: '#333',
-              font: {
-                size: 14,
-                weight: 'bold'
-              }
-            },
-          }
-        },
-        interaction: {
-          mode: 'nearest',
-          axis: 'x',
-          intersect: false
-        }
-      }
-    })
+  if (response.ok) {
+    const displayRate = parseFloat(data.value);
+    if (rateHeader){
+      rateHeader.textContent = `${displayRate.toFixed(2)} eur/Ton`
+    }
+    if (ratePage){
+      ratePage.textContent = `${displayRate.toFixed(2)} EUR/TONNE`
+    }
   }
 }
+
+fetchRateFromDb();
+
+// function yearlyChart (labels, fetchedData) {
+//   if (monthsChart) {
+//     monthsChart.destroy();
+//   }
+//   const mobile = isMobile();
+//   const mobileLabels = isMobileLabels(labels);
+//   if (yearlyChart)
+//     {monthsChart = new Chart(ctx, {
+//     type: 'line',
+//     data: {
+//       backgroundColor: '',
+//       labels: mobileLabels.reverse(),
+//       datasets: [{
+//         label: mobile ? 'Prix EUR/Ton' : `Prix d'une tonne de cuivre au cours de la dernière année`,
+//         backgroundColor: '#2C5499',
+//         data: fetchedData.reverse(),
+//         fill: false,
+//         tension: 0.1,
+//         pointRadius: mobile ? 3 : 5,
+//         pointHoverRadius: mobile ? 6 : 8
+//       }]
+//     },
+//     options: {
+//         responsive: true,
+//         maintainAspectRatio: false,
+//         plugins: {
+//           legend: {
+//             display: !mobile,
+//             position: 'top',
+//             labels: {
+//                 color: '#333'
+//             },
+//             font: {
+//               size: mobile ? 10 : 12
+//             }
+//           },
+//           tooltip: {
+//             callbacks: {
+//                 label: function(context) {
+//                     let label = context.dataset.label || '';
+//                     if (label) {
+//                         label += ': ';
+//                     }
+//                     if (context.parsed.y !== null) {
+//                         label += new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(context.parsed.y) + '/Ton';
+//                     }
+//                     return label;
+//                 }
+//             }
+//           }
+//         },
+//         scales: {
+//           y: {
+//             beginAtZero: false,
+//             ticks: {
+//               color: '#666',
+//               font: {
+//                 size: mobile ? 10 : 12
+//               },
+//               callback: function(value) {
+//                 return mobile 
+//                   ? `${(value / 1000).toFixed(1)}k €` 
+//                   : `${value.toFixed(0)} €`;
+//               }
+//             },
+//             title: {
+//               display: !mobile,
+//               text: 'Prix (EUR/Ton)',
+//               color: '#333',
+//               font: {
+//                 size: 14,
+//                 weight: 'bold'
+//               }
+//             },
+//           }
+//         },
+//         interaction: {
+//           mode: 'nearest',
+//           axis: 'x',
+//           intersect: false
+//         }
+//       }
+//     })
+//   }
+// }
 
 // fetchYearlyRates();
 
