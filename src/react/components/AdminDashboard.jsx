@@ -1,15 +1,20 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { motion } from 'framer-motion';
 
 const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://gseurodiffusion.onrender.com';
 
 export default function AdminDashboard() {
   const [rateIsClicked, setRateIsClicked] = useState(false);
-  const [currentRate, setCurrentRate] = useState(0);
+  const savedRate = localStorage.getItem('rate');
+  const [currentRate, setCurrentRate] = useState( savedRate ? JSON.parse(savedRate) : 0);
 
   const rateHandler = (value) => {
     setCurrentRate(value);
   }
+
+  useEffect(() => {
+    localStorage.setItem('rate', JSON.stringify(currentRate))
+  }, [currentRate]);
 
   const saveRateInDb = async () => {
     const token = localStorage.getItem('token');
@@ -24,6 +29,7 @@ export default function AdminDashboard() {
     const data = await response.json();
     if (response.ok) {
       setRateIsClicked(false);
+      window.fetchRateFromDb();
     }
   }
   return (

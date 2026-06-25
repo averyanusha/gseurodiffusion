@@ -193,28 +193,28 @@ function isMobileSearch (){
 }
 
 
-function isMobileLabels(labels) {
-  if (!isMobile) return labels;
-  return labels.map(label => {
-  // "Janvier 2025" -> "Jan"
-  const monthName = label.split(' ')[0];
-  const monthAbbreviations = {
-    'Janvier': 'Jan',
-    'Fevrier': 'Fév',
-    'Mars': 'Mar',
-    'Avril': 'Avr',
-    'Mai': 'Mai',
-    'Juin': 'Juin',
-    'Juillet': 'Juil',
-    'Août': 'Aoû',
-    'Septembre': 'Sep',
-    'Octobre': 'Oct',
-    'November': 'Nov',
-    'Decembre': 'Déc'
-  };
-  return monthAbbreviations[monthName] || monthName.substring(0, 3);
-});
-}
+// function isMobileLabels(labels) {
+//   if (!isMobile) return labels;
+//   return labels.map(label => {
+//   // "Janvier 2025" -> "Jan"
+//   const monthName = label.split(' ')[0];
+//   const monthAbbreviations = {
+//     'Janvier': 'Jan',
+//     'Fevrier': 'Fév',
+//     'Mars': 'Mar',
+//     'Avril': 'Avr',
+//     'Mai': 'Mai',
+//     'Juin': 'Juin',
+//     'Juillet': 'Juil',
+//     'Août': 'Aoû',
+//     'Septembre': 'Sep',
+//     'Octobre': 'Oct',
+//     'November': 'Nov',
+//     'Decembre': 'Déc'
+//   };
+//   return monthAbbreviations[monthName] || monthName.substring(0, 3);
+// });
+// }
 
 isMobileSearch(); 
 
@@ -306,7 +306,7 @@ window.addEventListener('scroll', () => {
 
 async function fetchRateFromDb() {
   let rateHeader = document.querySelector('#rateHeader a');
-  let ratePage = document.getElementById("rate");
+  let ratePage = document.getElementById("#rate");
 
   const response = await fetch(`${API_URL}/api/rates/latest`);
   const data = await response.json();
@@ -314,13 +314,15 @@ async function fetchRateFromDb() {
   if (response.ok) {
     const displayRate = parseFloat(data.value);
     if (rateHeader){
-      rateHeader.textContent = `${displayRate.toFixed(2)} eur/Ton`
+      rateHeader.textContent = `${displayRate.toFixed(2)} eur/Ton`;
     }
     if (ratePage){
-      ratePage.textContent = `${displayRate.toFixed(2)} EUR/TONNE`
+      ratePage.textContent = `${displayRate.toFixed(2)} EUR/TONNE`;
     }
   }
 }
+
+window.fetchRateFromDb = fetchRateFromDb;
 
 fetchRateFromDb();
 
